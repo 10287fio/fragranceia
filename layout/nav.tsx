@@ -1,14 +1,21 @@
 import type {NextPage} from "next"
 import Image from 'next/image'
 import Link from 'next/link'
+import {useRouter} from 'next/router'
 import React from 'react'
 import langStyles from '@/layout/styles/layout.module.scss'
-import DeliveryServiceEnum from '../enums/layoutEnum'
+import {NavLangItemsEnum } from '../enums/navEnum'
 
 const Nav: NextPage = () => {
-  const navItems: string[] = DeliveryServiceEnum.NavItemsEnum.map((x)=> x.value)
+  const router = useRouter()
+  const test = router.query
+  console.log(test.lang);
 
-  const navItem  = DeliveryServiceEnum.NavItemsEnum.reduce((a:{[key:string]:any}, c) => {
+  const navNameItems : {value:string, name:string}[] = NavLangItemsEnum.filter(x => x.lang == (test.lang ?? 'default')).map(x => {
+    return {value : x.value, name : x.name}
+  })
+
+  const navUrlItems  = NavLangItemsEnum.filter(x => x.lang == (test.lang ?? 'default')).reduce((a:{[key:string]:any}, c) => {
     a[c.value] = {name:c.value, url:c.url}
     return a
   }, {})
@@ -25,9 +32,9 @@ const Nav: NextPage = () => {
           </div>
           <div style={{flexBasis: '50%'}}>
             <div className={langStyles.navItem}>
-              {navItems.map((item) =>
-                  <div key={item.toString()} style={{flexBasis: '50%', textAlign: 'center', color:'gray'}}>
-                    <Link href={navItem[item].url}>{item}</Link>
+              {navNameItems.map(navNameItem =>
+                  <div key={navNameItem.name.toString()} style={{flexBasis: '50%', textAlign: 'center', color:'gray'}}>
+                    <Link href={navUrlItems[navNameItem.value].url}>{navNameItem.name}</Link>
                   </div>)}
             </div>
           </div>

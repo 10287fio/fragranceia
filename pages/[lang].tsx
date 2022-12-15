@@ -1,7 +1,7 @@
 import type {NextPage, GetStaticPaths, GetStaticProps, InferGetStaticPropsType} from 'next'
 import type {NextPageWithLayout} from './_app'
 import {useRouter} from 'next/router'
-import Enterprise from './[lang]/enterprise'
+import Enterprise from './enterprise'
 
 const LangPage: NextPageWithLayout = ({contents}: InferGetStaticPropsType<typeof getStaticProps>) => {
 
@@ -17,7 +17,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
     paths:
         [
           {params: {lang: 'kor'}},
-          {params: {lang: 'jpd'}}
+          {params: {lang: 'jp'}}
         ],
     fallback: false
   }
